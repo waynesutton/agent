@@ -41,12 +41,18 @@ const Index = () => {
 
             {/* Right nav */}
             <div className="flex items-center">
-              <nav className="hidden md:flex">
+              <nav className="hidden md:flex space-x-4">
                 <a
-                  href="https://github.com/get-convex/agent#installation"
+                  href="https://www.convex.dev/components/agent"
                   className="neutral-800 hover:text-gray-900"
                 >
-                  Readme
+                  Agent Component
+                </a>
+                <a
+                  href="https://github.com/get-convex/agent"
+                  className="neutral-800 hover:text-gray-900"
+                >
+                  Docs
                 </a>
               </nav>
             </div>
@@ -389,7 +395,7 @@ export const {
                 href="https://github.com/get-convex/agent#installation"
                 className="text-white hover:text-gray-300 text-sm"
               >
-                Readme
+                Docs
               </a>
 
               <a
