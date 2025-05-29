@@ -129,49 +129,102 @@ function ConvexProviderGate({ children }: { children: ReactNode }) {
 
   if (!deploymentUrl || !isValid || !convex) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50">
-        <div
-          className="bg-white rounded-xl shadow-2xl p-8 flex flex-col gap-6 border border-muted"
-          style={{ minWidth: 750, maxWidth: "90vw", width: 750 }}
-        >
-          <h2 className="text-2xl font-bold mb-1 text-foreground">
-            Configure Convex Deployment
-          </h2>
-          <label className="text-sm font-medium text-foreground">
-            Deployment URL
-          </label>
-          <input
-            className="border border-input rounded-lg px-4 py-2 text-base font-mono bg-muted focus:outline-none focus:ring-2 focus:ring-blue-500 transition w-full min-w-0"
-            type="text"
-            value={inputValue}
-            onChange={handleInputChange}
-            onBlur={handleInputBlur}
-            onKeyDown={handleInputKeyDown}
-            placeholder="https://<your-convex>.cloud"
-            autoFocus
-          />
-          <div style={{ minHeight: "2.5em" }} className="flex items-center">
-            {loading ? (
-              <div
-                className="text-blue-700 text-sm font-medium break-words whitespace-pre-wrap bg-blue-50 rounded p-3 border border-blue-200"
-                style={{ wordBreak: "break-word", maxWidth: "100%" }}
-              >
-                Validating...
+      <div
+        className="fixed inset-0 flex items-center justify-center antialiased"
+        style={{ backgroundColor: "#F9F7EE" }}
+      >
+        <div className="w-full max-w-2xl mx-auto px-4">
+          <div
+            className="bg-white rounded-xl shadow-sm p-8 border"
+            style={{ borderColor: "#E5E7EB" }}
+          >
+            {/* Header with logo */}
+            <div className="flex items-center justify-center mb-8">
+              <img
+                src={import.meta.env.BASE_URL + "convexlogo.png"}
+                alt="Convex"
+                className="h-6 w-auto"
+              />
+            </div>
+
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold mb-4 text-gray-900">
+                Configure Deployment
+              </h2>
+              <p className="text-lg text-gray-600 leading-relaxed">
+                Enter your Convex deployment URL to connect to the playground
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-900 mb-2">
+                  Deployment URL
+                </label>
+                <div className="flex gap-3">
+                  <input
+                    className="flex-1 border rounded-lg px-4 py-3 text-base font-mono bg-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition-colors"
+                    style={{ borderColor: "#E5E7EB" }}
+                    type="text"
+                    value={inputValue}
+                    onChange={handleInputChange}
+                    onBlur={handleInputBlur}
+                    onKeyDown={handleInputKeyDown}
+                    placeholder="https://your-deployment.convex.cloud"
+                    autoFocus
+                  />
+                  <button
+                    onClick={() => {
+                      if (inputValue && isValidHttpUrl(inputValue)) {
+                        navigate(
+                          `/play/${encodeURIComponent(inputValue.replace(/\/$/, ""))}`
+                        );
+                      }
+                    }}
+                    disabled={!inputValue || !isValidHttpUrl(inputValue)}
+                    className="px-6 py-3 bg-gray-800 hover:bg-gray-900 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-full shadow-sm focus:ring-2 focus:ring-violet-500 hover:shadow-[0_0_20px_rgba(176,42,91,0.3)] border-2 border-[#B02A5B] disabled:border-gray-300 transition-all duration-200 font-medium"
+                  >
+                    Connect
+                  </button>
+                </div>
               </div>
-            ) : instanceName ? (
-              <div className="text-green-700 text-sm">
-                Instance: {instanceName}
+
+              <div style={{ minHeight: "3rem" }} className="flex items-center">
+                {loading ? (
+                  <div className="w-full text-center">
+                    <div className="inline-flex items-center px-4 py-2 text-sm font-medium text-violet-700 bg-violet-50 rounded-lg border border-violet-200">
+                      <div className="animate-spin -ml-1 mr-3 h-4 w-4 border-2 border-violet-500 border-t-transparent rounded-full"></div>
+                      Validating deployment...
+                    </div>
+                  </div>
+                ) : instanceName ? (
+                  <div className="w-full text-center">
+                    <div className="inline-flex items-center px-4 py-2 text-sm font-medium text-green-700 bg-green-50 rounded-lg border border-green-200">
+                      <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                      Connected to: {instanceName}
+                    </div>
+                  </div>
+                ) : error ? (
+                  <div className="w-full">
+                    <div className="text-red-700 text-sm font-medium bg-red-50 rounded-lg p-3 border border-red-200">
+                      {error}
+                    </div>
+                  </div>
+                ) : null}
               </div>
-            ) : error ? (
-              <div
-                className="text-red-600 text-sm font-medium break-words whitespace-pre-wrap bg-red-50 rounded p-3 border border-red-200"
-                style={{ wordBreak: "break-word", maxWidth: "100%" }}
-              >
-                {error}
-              </div>
-            ) : (
-              ""
-            )}
+            </div>
+
+            <div className="mt-8 text-center">
+              <p className="text-sm text-gray-500">
+                Need help? Check out the{" "}
+                <a
+                  href="https://github.com/get-convex/agent"
+                  className="text-violet-600 hover:text-violet-700 font-medium hover:underline"
+                >
+                  documentation
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>

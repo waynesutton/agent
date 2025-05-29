@@ -327,10 +327,10 @@ export const {
             </div>
 
             <div>
-              <div className="flex items-center mb-4">
-                <div className="w-8 h-8 bg-gray-900 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-4">
+              {/*<div className="flex items-center mb-4">
+              <div className="w-8 h-8 bg-gray-900 text-white rounded-full flex items-center justify-center text-sm font-semibold mr-4">
                   4
-                </div>
+                </div> 
                 <h3 className="text-xl font-normal text-gray-900">
                   Launch the Playground
                 </h3>
@@ -361,7 +361,7 @@ export const {
                     <code>npx @convex-dev/agent-playground</code>
                   </pre>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 

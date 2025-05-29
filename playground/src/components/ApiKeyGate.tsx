@@ -120,132 +120,259 @@ function ApiKeyGate({
 
   if (!apiKey || !apiPath || !apiKeyValid) {
     return (
-      <div className="fixed inset-0 flex py-8 items-start justify-center bg-black bg-opacity-60 z-50">
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white rounded-xl shadow-2xl p-8 flex flex-col gap-6 w-full max-w-4xl border border-muted min-h-[600px]"
-        >
-          <div className="flex flex-col gap-2">
-            <h2 className="text-2xl font-bold mb-1 text-foreground">
-              Configure the playground
-            </h2>
-            {isConnected === false && (
-              <div className="text-red-600 text-sm  font-medium mt-2">
-                Backend is not connected. Please check your internet connection,
-                or the Convex deployment URL in the environment variables /
-                sessionStorage.
+      <div
+        className="min-h-screen antialiased"
+        style={{ backgroundColor: "#F9F7EE" }}
+      >
+        {/* Header */}
+        <header style={{ backgroundColor: "#F9F7EE" }}>
+          <div className="container mx-auto px-2 py-4">
+            <div className="flex items-center justify-between">
+              {/* Left logo */}
+              <div className="flex items-center">
+                <img
+                  src={import.meta.env.BASE_URL + "convexlogo.png"}
+                  alt="Convex"
+                  className="h-3.5 w-auto"
+                />
               </div>
-            )}
-            <h3 className="text-xl font-bold mb-1 text-foreground">
-              API Path {apiPath ? "✅ " : "❌ "}
-            </h3>
-            <label className="text-sm font-medium text-foreground">
-              Playground API Path
-            </label>
-            <input
-              className="border border-input rounded-lg px-4 py-2 text-base font-mono bg-muted focus:outline-none focus:ring-2 focus:ring-blue-500 transition w-full min-w-0"
-              type="text"
-              autoComplete="username"
-              id="agent-playground-api-path"
-              value={apiPathInput}
-              onChange={(e) => setApiPathInput(e.target.value.trim())}
-              placeholder="playground"
-            />
-            <span className="text-xs text-muted-foreground">
-              Where you exported the playground api with definePlaygroundAPI.
-              Usually <code>playground</code>.
-            </span>
+
+              {/* Right nav */}
+              <div className="flex items-center">
+                <nav className="hidden md:flex space-x-4">
+                  <a
+                    href="https://www.convex.dev/components/agent"
+                    className="neutral-800 hover:text-gray-900"
+                  >
+                    Agent Component
+                  </a>
+                  <a
+                    href="https://github.com/get-convex/agent"
+                    className="neutral-800 hover:text-gray-900"
+                  >
+                    Docs
+                  </a>
+                </nav>
+              </div>
+            </div>
           </div>
-          <h3 className="text-xl font-bold mb-1 text-foreground">
-            API Key {apiKeyValid ? "✅ " : "❌ "}
-          </h3>
-          <div className="text-muted-foreground text-sm mb-2">
-            To use the Playground, you need an API key. After setting up the
-            agent in your app, run this command in your project directory (CLI
-            or Convex dashboard):
-            <div className="relative my-3">
-              <pre className="bg-gray-900 text-white rounded-md p-3 pr-14 text-xs overflow-x-auto border border-gray-800 font-mono select-all">
-                {CLI_COMMAND}
-              </pre>
-              <button
-                type="button"
-                onClick={handleCopy}
-                className="absolute top-2 right-2 bg-gray-800 hover:bg-gray-700 text-white rounded px-2 py-1 text-xs flex items-center gap-1 shadow"
-                tabIndex={-1}
-                aria-label="Copy command"
-              >
-                {copied ? (
-                  <span>Copied!</span>
-                ) : (
-                  <>
-                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
-                      <rect
-                        x="9"
-                        y="9"
-                        width="13"
-                        height="13"
-                        rx="2"
-                        fill="#fff"
-                        fillOpacity="0.1"
-                        stroke="#fff"
-                        strokeWidth="2"
-                      />
-                      <rect
-                        x="3"
-                        y="3"
-                        width="13"
-                        height="13"
-                        rx="2"
-                        fill="#fff"
-                        fillOpacity="0.2"
-                        stroke="#fff"
-                        strokeWidth="2"
-                      />
-                    </svg>
-                    Copy
-                  </>
+        </header>
+
+        {/* Main Content */}
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-4xl mx-auto">
+            <form
+              onSubmit={handleSubmit}
+              className="bg-white rounded-xl shadow-sm p-8 border"
+              style={{ borderColor: "#E5E7EB" }}
+            >
+              <div className="text-center mb-8">
+                <h2 className="text-4xl font-bold mb-4 text-gray-900">
+                  Configure the playground
+                </h2>
+                <p className="text-lg text-gray-600 leading-relaxed">
+                  Set up your API configuration to start using the Agent
+                  Playground
+                </p>
+                {isConnected === false && (
+                  <div className="text-red-700 text-sm font-medium bg-red-50 rounded-lg p-3 border border-red-200 mt-4">
+                    Backend is not connected. Please check your internet
+                    connection, or the Convex deployment URL in the environment
+                    variables / sessionStorage.
+                  </div>
                 )}
-              </button>
-            </div>
-            <span className="block mt-2">
-              Paste the resulting API key below.
-            </span>
+              </div>
+
+              <div className="space-y-8">
+                {/* API Path Section */}
+                <div>
+                  <h3 className="text-xl font-semibold mb-4 text-gray-900 flex items-center gap-2">
+                    API Path {apiPath ? "✅" : "❌"}
+                  </h3>
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-900">
+                      Playground API Path
+                    </label>
+                    <input
+                      className="w-full border rounded-lg px-4 py-3 text-base font-mono bg-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition-colors"
+                      style={{ borderColor: "#E5E7EB" }}
+                      type="text"
+                      autoComplete="username"
+                      id="agent-playground-api-path"
+                      value={apiPathInput}
+                      onChange={(e) => setApiPathInput(e.target.value.trim())}
+                      placeholder="playground"
+                      autoFocus
+                    />
+                    <p className="text-sm text-gray-600">
+                      Where you exported the playground api with
+                      definePlaygroundAPI. Usually{" "}
+                      <code className="bg-gray-100 px-2 py-1 rounded text-sm">
+                        playground
+                      </code>
+                      .
+                    </p>
+                  </div>
+                </div>
+
+                {/* API Key Section */}
+                <div>
+                  <h3 className="text-xl font-semibold mb-4 text-gray-900 flex items-center gap-2">
+                    API Key {apiKeyValid ? "✅" : "❌"}
+                  </h3>
+                  <div className="space-y-4">
+                    <p className="text-gray-600 leading-relaxed">
+                      To use the Playground, you need an API key. After setting
+                      up the agent in your app, run this command in your project
+                      directory (CLI or Convex dashboard):
+                    </p>
+
+                    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+                      <div className="bg-gray-50 px-4 py-3 border-b border-gray-200">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-2">
+                            <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                            <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                            <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                          </div>
+                          <div className="text-sm text-gray-500">Terminal</div>
+                          <button
+                            type="button"
+                            onClick={handleCopy}
+                            className="flex items-center gap-1 px-2 py-1 bg-gray-800 hover:bg-gray-700 text-white rounded text-xs transition-colors"
+                            tabIndex={-1}
+                            aria-label="Copy command"
+                          >
+                            {copied ? (
+                              <span>Copied!</span>
+                            ) : (
+                              <>
+                                <svg
+                                  width="12"
+                                  height="12"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <rect
+                                    x="9"
+                                    y="9"
+                                    width="13"
+                                    height="13"
+                                    rx="2"
+                                    fill="#fff"
+                                    fillOpacity="0.1"
+                                    stroke="#fff"
+                                    strokeWidth="2"
+                                  />
+                                  <rect
+                                    x="3"
+                                    y="3"
+                                    width="13"
+                                    height="13"
+                                    rx="2"
+                                    fill="#fff"
+                                    fillOpacity="0.2"
+                                    stroke="#fff"
+                                    strokeWidth="2"
+                                  />
+                                </svg>
+                                Copy
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                      <div className="p-4">
+                        <pre className="text-sm text-gray-800 font-mono">
+                          <code>{CLI_COMMAND}</code>
+                        </pre>
+                      </div>
+                    </div>
+
+                    <p className="text-gray-600">
+                      Paste the resulting API key below.
+                    </p>
+
+                    <input
+                      className="w-full border rounded-lg px-4 py-3 text-base font-mono bg-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition-colors"
+                      style={{ borderColor: "#E5E7EB" }}
+                      type="password"
+                      autoComplete="current-password"
+                      name="api-key"
+                      id="agent-playground-api-key"
+                      value={apiKeyInput}
+                      onChange={(e) =>
+                        setApiKeyInput(
+                          e.target.value
+                            .trim()
+                            .replace(/^['"]|['"]$/g, "")
+                            .trim()
+                        )
+                      }
+                      placeholder="API Key"
+                    />
+
+                    {error && (
+                      <div className="bg-white rounded-xl border border-red-200 overflow-hidden">
+                        <div className="bg-red-50 px-4 py-3 border-b border-red-200">
+                          <div className="text-sm text-red-700 font-medium">
+                            Error
+                          </div>
+                        </div>
+                        <div className="p-4">
+                          <pre className="text-sm text-red-800 font-mono whitespace-pre-wrap">
+                            <code>{error}</code>
+                          </pre>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex justify-center pt-4">
+                  <button
+                    type="submit"
+                    disabled={!apiPath || !apiKeyValid}
+                    className="px-8 py-3 bg-gray-800 hover:bg-gray-900 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-full shadow-sm focus:ring-2 focus:ring-violet-500 hover:shadow-[0_0_20px_rgba(176,42,91,0.3)] border-2 border-[#B02A5B] disabled:border-gray-300 transition-all duration-200 font-medium"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
-          <input
-            className="border border-input rounded-lg px-4 py-3 text-base font-mono bg-muted focus:outline-none focus:ring-2 focus:ring-blue-500 transition w-full min-w-0"
-            type="password"
-            autoComplete="current-password"
-            name="api-key"
-            id="agent-playground-api-key"
-            value={apiKeyInput}
-            onChange={(e) =>
-              setApiKeyInput(
-                e.target.value
-                  .trim()
-                  .replace(/^['"]|['"]$/g, "")
-                  .trim()
-              )
-            }
-            placeholder="API Key"
-            autoFocus
-          />
-          {error && (
-            // we want to show the error in a code block
-            <div className="text-red-600 text-sm  font-medium mt-2">
-              <pre className="bg-gray-900 text-white rounded-md p-3 pr-14 text-xs overflow-x-auto border border-gray-800 font-mono select-all">
-                {error}
-              </pre>
+        </div>
+
+        {/* Footer */}
+        <footer className="bg-black mt-20">
+          <div className="container mx-auto px-4 py-8">
+            <div className="flex flex-col md:flex-row items-center justify-between">
+              <div className="text-white text-sm">
+                <a
+                  href="https://convex.dev"
+                  className="text-white hover:text-orange-500 font-medium"
+                >
+                  Convex
+                </a>{" "}
+                Agent Playground
+              </div>
+              <div className="flex items-center space-x-6 mt-4 md:mt-0">
+                <a
+                  href="https://github.com/get-convex/agent#installation"
+                  className="text-white hover:text-gray-300 text-sm"
+                >
+                  Docs
+                </a>
+                <a
+                  href="https://convex.dev/components/agent"
+                  className="text-white hover:text-gray-300 text-sm"
+                >
+                  Components
+                </a>
+              </div>
             </div>
-          )}
-          <Button
-            type="submit"
-            variant="default"
-            className="bg-blue-500 text-white rounded-lg px-4 py-2 transition-colors hover:bg-blue-600"
-            disabled={!apiPath || !apiKeyValid}
-          >
-            Submit
-          </Button>
-        </form>
+          </div>
+        </footer>
       </div>
     );
   }
